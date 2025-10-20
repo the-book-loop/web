@@ -1,9 +1,9 @@
-import tailwindcss from '@tailwindcss/vite';
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineNuxtConfig({
 	compatibilityDate: '2025-07-15',
 	devtools: { enabled: true },
-	extends: ['./app/core', './app/layers/site'],
+	extends: ['./app/core', './app/layers/site', './app/layers/auth'],
 	dir: {
 		assets: './app/core/assets',
 		plugins: './app/core/plugins',
@@ -29,6 +29,8 @@ export default defineNuxtConfig({
 		'@pinia/nuxt',
 		'@nuxtjs/color-mode',
 		'pinia-plugin-persistedstate/nuxt',
+		'@nuxt/image',
+		'@nuxt/fonts',
 	],
 	css: ['./app/core/assets/tailwind.css'],
 	shadcn: {
@@ -46,6 +48,17 @@ export default defineNuxtConfig({
 	},
 	colorMode: {
 		classSuffix: '',
+		preference: 'light',
+		fallback: 'light',
+	},
+	fonts: {
+		families: [
+			{
+				name: 'Lateef',
+				provider: 'google',
+				weights: [400, 500, 600, 700, 800],
+			},
+		],
 	},
 	vite: {
 		plugins: [tailwindcss()],
@@ -59,5 +72,6 @@ export default defineNuxtConfig({
 		head: {
 			titleTemplate: '%s | BookLoop',
 		},
+		pageTransition: { name: 'page', mode: 'out-in' },
 	},
-});
+})
