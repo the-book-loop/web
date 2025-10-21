@@ -1,6 +1,5 @@
 {
 	"name": "book-loop-fe",
-	"type": "module",
 	"private": true,
 	"scripts": {
 		"build": "nuxt build",
