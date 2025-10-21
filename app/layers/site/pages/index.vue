@@ -1,9 +1,13 @@
 <script lang="ts" setup>
-import ThemeToggle from '~/core/components/ThemeToggle.vue';
+import ThemeToggle from '~/core/components/ThemeToggle.vue'
+
+definePageMeta({
+	middleware: ['logged-in'],
+})
 
 useSeoMeta({
 	title: 'Home',
-});
+})
 </script>
 
 <template>
