@@ -7,7 +7,15 @@ useSeoMeta({
 	title: 'Profile',
 })
 
-const { user } = storeToRefs(useAuthStore())
+const authStore = useAuthStore()
+const { user } = storeToRefs(authStore)
+const router = useRouter()
+
+const handleLogout = () => {
+	authStore.invalidateSession()
+
+	router.replace('/login')
+}
 
 const fullName = computed(() => {
 	return `${user.value?.firstName} ${user.value?.lastName}`
@@ -27,10 +35,11 @@ const fullName = computed(() => {
 				Somewhere, Earth
 			</div>
 		</div>
-		<div class="flex flex-col w-lg bg-white rounded-lg p-4">
+		<div class="flex flex-col w-2xl bg-white rounded-lg p-4">
 			<h2 class="font-lateef text-2xl font-bold text-primary">Bio</h2>
+			<p class="font-lateef text-xl text-primary/50">{{ user?.description }}</p>
 		</div>
-		<div class="grid grid-cols-2 w-lg gap-5">
+		<div class="grid grid-cols-2 w-2xl gap-5">
 			<Collapsible class="bg-white p-4 h-fit rounded-lg group/collapsible">
 				<CollapsibleTrigger
 					class="inline-flex font-lateef text-2xl font-bold text-primary items-center justify-between w-full"
@@ -69,6 +78,13 @@ const fullName = computed(() => {
 						<Icon name="lucide:pen-line" class="!size-3" />
 						Edit profile
 					</NuxtLink>
+					<button
+						class="flex font-lateef text-xl items-center gap-2 text-primary/50 cursor-pointer"
+						@click="handleLogout"
+					>
+						<Icon name="lucide:log-out" class="!size-3" />
+						Logout
+					</button>
 				</CollapsibleContent>
 			</Collapsible>
 		</div>
