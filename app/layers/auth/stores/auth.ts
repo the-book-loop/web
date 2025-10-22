@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import type { Maybe } from '~/core/types'
 import type { TokenInfo, User } from '../types'
+import type { Profile } from '~/layers/user/schemas'
 
 export const useAuthStore = defineStore(
 	'auth',
@@ -15,11 +16,16 @@ export const useAuthStore = defineStore(
 			user.value = null
 		}
 
+		const updateProfile = (profile: Profile) => {
+			user.value = { ...user.value, ...profile } as User
+		}
+
 		return {
 			tokenInfo,
 			user,
 			isAuthenticated,
 			invalidateSession,
+			updateProfile,
 		}
 	},
 	{ persist: true },

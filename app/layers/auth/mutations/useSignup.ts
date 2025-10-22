@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/vue-query'
 import type { SignupData } from '../schemas'
 import type { AuthResponse } from '../types'
-import { useAuthStore } from '../stores/auth'
 
 export const useSignup = () => {
 	const router = useRouter()

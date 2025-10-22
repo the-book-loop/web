@@ -3,7 +3,12 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineNuxtConfig({
 	compatibilityDate: '2025-07-15',
 	devtools: { enabled: false },
-	extends: ['./app/core', './app/layers/site', './app/layers/auth'],
+	extends: [
+		'./app/core',
+		'./app/layers/site',
+		'./app/layers/auth',
+		'./app/layers/user',
+	],
 	dir: {
 		assets: './app/core/assets',
 		plugins: './app/core/plugins',
@@ -42,6 +47,12 @@ export default defineNuxtConfig({
 		serverBundle: {
 			collections: ['lucide'],
 		},
+		customCollections: [
+			{
+				prefix: 'custom',
+				dir: './app/core/assets/icons',
+			},
+		],
 	},
 	pinia: {
 		storesDirs: ['./**/stores/**'],
