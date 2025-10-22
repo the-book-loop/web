@@ -1,10 +1,10 @@
-import js from '@eslint/js';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
-import pluginVue from 'eslint-plugin-vue';
-import { defineConfig } from 'eslint/config';
-import globals from 'globals';
-import tseslint from 'typescript-eslint';
-import withNuxt from './.nuxt/eslint.config.mjs';
+import js from '@eslint/js'
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
+import pluginVue from 'eslint-plugin-vue'
+import { defineConfig } from 'eslint/config'
+import globals from 'globals'
+import tseslint from 'typescript-eslint'
+import withNuxt from './.nuxt/eslint.config.mjs'
 
 export default withNuxt(
 	defineConfig([
@@ -14,7 +14,7 @@ export default withNuxt(
 			extends: ['js/recommended'],
 		},
 		{
-			files: ['**/*.{js,mjs,cjs,ts,mts,cts,vue}'],
+			files: ['./app/**/**/**/*.{js,mjs,cjs,ts,mts,cts,vue}'],
 			languageOptions: { globals: globals.browser },
 		},
 		tseslint.configs.recommended,
@@ -40,4 +40,4 @@ export default withNuxt(
 		},
 		eslintPluginPrettierRecommended,
 	]),
-);
+)

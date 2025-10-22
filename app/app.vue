@@ -1,4 +1,11 @@
+<script lang="ts">
+import 'vue-sonner/style.css'
+</script>
+
 <template>
+	<ClientOnly>
+		<Toaster />
+	</ClientOnly>
 	<NuxtRouteAnnouncer />
 	<NuxtLayout>
 		<NuxtPage />
