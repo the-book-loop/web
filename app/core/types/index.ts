@@ -1,3 +1,9 @@
 type Maybe<T> = T | null | undefined
 
-export type { Maybe }
+type BaseEntity<T> = T & {
+	id: string
+	created: Date
+	modified: Date
+}
+
+export type { Maybe, BaseEntity }

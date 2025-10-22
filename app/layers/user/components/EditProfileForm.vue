@@ -2,12 +2,15 @@
 import { useForm } from 'vee-validate'
 import { useEditProfile } from '../mutations/useEditProfile'
 import { toast } from 'vue-sonner'
+import { toTypedSchema } from '@vee-validate/zod'
+import { EditProfileSchema } from '../schemas'
 
 const { user } = storeToRefs(useAuthStore())
 
 const { mutateAsync, isPending } = useEditProfile()
 
 const form = useForm({
+	validationSchema: toTypedSchema(EditProfileSchema),
 	initialValues: {
 		firstName: user.value?.firstName || '',
 		lastName: user.value?.lastName || '',
