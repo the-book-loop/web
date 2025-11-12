@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const links = [
 	{ to: '/', icon: 'custom:heart', label: 'Home' },
-	{ to: '/', icon: 'custom:messages', label: 'Chats' },
+	{ to: '/exchanges', icon: 'custom:exchange', label: 'Exchanges' },
 	{ to: '/search', icon: 'lucide:search', label: 'Search' },
 	{ to: '/profile', icon: 'custom:user', label: 'Profile' },
 ]

@@ -31,7 +31,7 @@ const fullName = computed(() => {
 			<div
 				class="inline-flex gap-2 items-center font-lateef text-xl text-primary/50"
 			>
-				<Icon name="lucide:map-pin" class="!size-4" />
+				<Icon name="lucide:map-pin" class="size-4!" />
 				Somewhere, Earth
 			</div>
 		</div>
@@ -55,7 +55,7 @@ const fullName = computed(() => {
 						to="/profile/books"
 						class="flex font-lateef text-xl items-center gap-2 text-primary/50"
 					>
-						<Icon name="lucide:book" class="!size-3" />
+						<Icon name="lucide:book" class="size-3!" />
 						My books
 					</NuxtLink>
 				</CollapsibleContent>
@@ -75,14 +75,14 @@ const fullName = computed(() => {
 						class="flex font-lateef text-xl items-center gap-2 text-primary/50"
 						to="/profile/edit"
 					>
-						<Icon name="lucide:pen-line" class="!size-3" />
+						<Icon name="lucide:pen-line" class="size-3!" />
 						Edit profile
 					</NuxtLink>
 					<button
 						class="flex font-lateef text-xl items-center gap-2 text-primary/50 cursor-pointer"
 						@click="handleLogout"
 					>
-						<Icon name="lucide:log-out" class="!size-3" />
+						<Icon name="lucide:log-out" class="size-3!" />
 						Logout
 					</button>
 				</CollapsibleContent>

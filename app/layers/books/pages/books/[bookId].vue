@@ -2,6 +2,7 @@
 import { useQuery } from '@tanstack/vue-query'
 import { useRouteParams } from '@vueuse/router'
 import { bookOptions } from '../../queries/getBook'
+import { useSendRequest } from '~/layers/exchanges/mutations/useSendRequest'
 
 const bookId = useRouteParams('bookId', '', { transform: String })
 
@@ -10,6 +11,12 @@ const { data: book, isLoading } = useQuery(bookOptions(bookId))
 useSeoMeta({
 	title: () => (isLoading.value ? 'Loading...' : book.value?.title),
 })
+
+const { mutate, isPending } = useSendRequest()
+
+const btnText = computed(() =>
+	isPending.value ? 'Sending Request...' : 'Send Request',
+)
 </script>
 
 <template>
@@ -109,7 +116,18 @@ useSeoMeta({
 					<Icon name="lucide:user-round" class="size-8! text-primary" />
 				</div>
 				{{ book.ownerFirstName }}
-				<Button>Send Request</Button>
+				<Button
+					:disabled="isPending"
+					@click="
+						() =>
+							mutate({
+								bookId: book?.id as string,
+								ownerId: book?.ownerId as string,
+							})
+					"
+				>
+					{{ btnText }}
+				</Button>
 			</div>
 		</template>
 	</div>

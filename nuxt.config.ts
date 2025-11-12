@@ -9,6 +9,7 @@ export default defineNuxtConfig({
 		'./app/layers/auth',
 		'./app/layers/user',
 		'./app/layers/books',
+		'./app/layers/exchanges',
 	],
 	dir: {
 		assets: './app/core/assets',
