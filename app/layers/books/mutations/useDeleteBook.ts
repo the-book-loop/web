@@ -1,9 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
-import type { CreateBook } from '../schemas'
 import { BOOKS_QUERY_KEYS } from '../constants'
 import type { Book } from '../types'
 
-export const useAddBook = () => {
+export const useDeleteBook = (bookId: MaybeRefOrGetter<string>) => {
 	const {
 		public: { apiBaseUrl },
 	} = useRuntimeConfig()
@@ -12,11 +11,10 @@ export const useAddBook = () => {
 	const router = useRouter()
 
 	return useMutation({
-		mutationFn: async (data: CreateBook) => {
-			const response = await $fetch<Book>(`/api/Book`, {
+		mutationFn: async () => {
+			const response = await $fetch<Book>(`/api/Book/${toValue(bookId)}`, {
 				baseURL: apiBaseUrl,
-				method: 'POST',
-				body: data,
+				method: 'DELETE',
 				headers: {
 					Authorization: `Bearer ${tokenInfo.value?.token}`,
 				},

@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import AddBookForm from '~/layers/books/components/AddBookForm.vue'
-
 definePageMeta({
 	middleware: ['logged-in'],
 })

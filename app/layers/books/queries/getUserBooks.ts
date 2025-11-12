@@ -1,5 +1,5 @@
 import { queryOptions } from '@tanstack/vue-query'
-import { BOOKS_QUERY_KEYS } from '../constans'
+import { BOOKS_QUERY_KEYS } from '../constants'
 import type { Book } from '../types'
 
 export const userBooksOptions = () => {
