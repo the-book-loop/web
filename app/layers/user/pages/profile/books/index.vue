@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import BooksList from '~/layers/books/components/BooksList.vue'
-
 definePageMeta({
 	middleware: ['logged-in'],
 })
@@ -21,6 +19,6 @@ useSeoMeta({
 				</NuxtLink>
 			</Button>
 		</div>
-		<BooksList />
+		<MyBooksList />
 	</div>
 </template>

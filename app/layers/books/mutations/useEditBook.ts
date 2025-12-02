@@ -3,7 +3,7 @@ import type { CreateBook } from '../schemas'
 import { BOOKS_QUERY_KEYS } from '../constants'
 import type { Book } from '../types'
 
-export const useAddBook = () => {
+export const useEditBook = (bookId: MaybeRefOrGetter<string>) => {
 	const {
 		public: { apiBaseUrl },
 	} = useRuntimeConfig()
@@ -13,9 +13,9 @@ export const useAddBook = () => {
 
 	return useMutation({
 		mutationFn: async (data: CreateBook) => {
-			const response = await $fetch<Book>(`/api/Book`, {
+			const response = await $fetch<Book>(`/api/Book/${toValue(bookId)}`, {
 				baseURL: apiBaseUrl,
-				method: 'POST',
+				method: 'PUT',
 				body: data,
 				headers: {
 					Authorization: `Bearer ${tokenInfo.value?.token}`,

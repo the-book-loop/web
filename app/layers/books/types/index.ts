@@ -11,3 +11,10 @@ export type Book = BaseEntity<{
 	ownerFirstName: string
 	ownerLastName: string
 }>
+
+export interface GetAllBooksParams {
+	query: MaybeRefOrGetter<string>
+	condition: MaybeRefOrGetter<string>
+	language: MaybeRefOrGetter<string>
+	genre: MaybeRefOrGetter<string>
+}

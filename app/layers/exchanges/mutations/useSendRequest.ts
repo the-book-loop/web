@@ -1,9 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
-import type { CreateBook } from '../schemas'
-import { BOOKS_QUERY_KEYS } from '../constants'
-import type { Book } from '../types'
+import type { CreateExchange, Exchange } from '../types'
+import { EXCHANGES_QUEERY_KEYS } from '../constants'
 
-export const useAddBook = () => {
+export const useSendRequest = () => {
 	const {
 		public: { apiBaseUrl },
 	} = useRuntimeConfig()
@@ -12,8 +11,8 @@ export const useAddBook = () => {
 	const router = useRouter()
 
 	return useMutation({
-		mutationFn: async (data: CreateBook) => {
-			const response = await $fetch<Book>(`/api/Book`, {
+		mutationFn: async (data: CreateExchange) => {
+			const response = await $fetch<Exchange>(`/api/Exchange`, {
 				baseURL: apiBaseUrl,
 				method: 'POST',
 				body: data,
@@ -26,10 +25,12 @@ export const useAddBook = () => {
 		},
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({
-				queryKey: BOOKS_QUERY_KEYS.byUser(user.value?.userId as string),
+				queryKey: EXCHANGES_QUEERY_KEYS.sentByUser(
+					user.value?.userId as string,
+				),
 			})
 
-			router.replace('/profile/books')
+			router.replace('/exchanges')
 		},
 	})
 }

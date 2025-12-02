@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { BOOK_STATES } from '../constans'
+import { BOOK_STATES } from '../constants'
 
 export const CreateBookSchema = z.object({
 	title: z

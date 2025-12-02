@@ -1,15 +1,26 @@
 <script lang="ts" setup>
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
+import { BOOK_STATES, type BookState } from '../constants'
+import { useEditBook } from '../mutations/useEditBook'
 import { CreateBookSchema } from '../schemas'
-import { BOOK_STATES } from '../constants'
-import { useAddBook } from '../mutations/useAddBook'
 import { fmtBookState } from '../utils'
+import type { Book } from '../types'
 
-const { mutateAsync, isPending } = useAddBook()
+const props = defineProps<{ book: Book }>()
+
+const { mutateAsync, isPending } = useEditBook(() => props.book.id)
 
 const form = useForm({
 	validationSchema: toTypedSchema(CreateBookSchema),
+	initialValues: {
+		title: props.book.title,
+		description: props.book.description,
+		state: props.book.state as BookState,
+		genre: props.book.genre,
+		author: props.book.author,
+		language: props.book.language,
+	},
 })
 
 const handleSubmit = form.handleSubmit(async (values) => {
@@ -29,7 +40,7 @@ const bookStates = computed(() => {
 	})
 })
 
-const buttonText = computed(() => (isPending.value ? 'Adding...' : 'Add'))
+const buttonText = computed(() => (isPending.value ? 'Editing...' : 'Edit'))
 </script>
 
 <template>
@@ -135,9 +146,15 @@ const buttonText = computed(() => (isPending.value ? 'Adding...' : 'Add'))
 				</FormItem>
 			</FormField>
 		</div>
-		<Button :disabled="isPending">
-			<Icon name="lucide:plus" />
-			{{ buttonText }}
-		</Button>
+		<div class="inline-flex gap-2">
+			<Button :disabled="isPending">
+				{{ buttonText }}
+			</Button>
+			<DeleteBookAlert :book-id="book.id">
+				<Button type="button" variant="destructive" :disabled="isPending">
+					Delete
+				</Button>
+			</DeleteBookAlert>
+		</div>
 	</form>
 </template>

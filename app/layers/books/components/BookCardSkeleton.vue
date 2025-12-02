@@ -11,6 +11,6 @@
 				<Skeleton class="h-5 w-full rounded" />
 			</div>
 		</div>
-		<Skeleton class="!size-7 rounded-full shrink-0" />
+		<Skeleton class="size-7! rounded-full shrink-0" />
 	</div>
 </template>

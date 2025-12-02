@@ -1,19 +1,10 @@
 <script lang="ts" setup>
 import { useQuery } from '@tanstack/vue-query'
-import { allBooksOptions } from '../queries/getAllBooks'
+import { userBooksOptions } from '../queries/getUserBooks'
+import BookCard from './BookCard.vue'
+import BookCardSkeleton from './BookCardSkeleton.vue'
 
-const props = defineProps<{
-	query: string
-	condition: string
-	language: string
-	genre: string
-}>()
-
-const { query, condition, language, genre } = toRefs(props)
-
-const { data: books, isLoading } = useQuery(
-	allBooksOptions({ query, condition, language, genre }),
-)
+const { data: books, isLoading } = useQuery(userBooksOptions())
 </script>
 
 <template>
@@ -25,7 +16,7 @@ const { data: books, isLoading } = useQuery(
 		class="flex flex-col items-center justify-start p-8 text-center"
 	>
 		<div class="rounded-full bg-primary/10 p-6 mb-4">
-			<Icon name="ph:book-open" class="size-12! text-primary" />
+			<Icon name="ph:book-open" class="!size-12 text-primary" />
 		</div>
 		<h3 class="text-3xl font-semibold text-primary font-lateef mb-2">
 			No books found
