@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { MessageResponse } from '../types'
+import { groupMessagesByDate } from '../utils'
 
 const props = defineProps<{
 	messages: MessageResponse[]
@@ -14,57 +15,7 @@ const emit = defineEmits<{
 const messagesContainer = ref<HTMLElement | null>(null)
 const shouldAutoScroll = ref(true)
 
-const formatMessageTime = (dateString: string) => {
-	const date = new Date(dateString)
-	return date.toLocaleTimeString('en-US', {
-		hour: 'numeric',
-		minute: '2-digit',
-		hour12: true,
-	})
-}
-
-const isSentByCurrentUser = (message: MessageResponse) => {
-	return message.senderId === props.currentUserId
-}
-
-const groupedMessages = computed(() => {
-	const groups: Array<{
-		date: string
-		messages: MessageResponse[]
-	}> = []
-
-	props.messages.forEach((message) => {
-		const messageDate = new Date(message.sentAt).toLocaleDateString()
-		const existingGroup = groups.find((g) => g.date === messageDate)
-
-		if (existingGroup) {
-			existingGroup.messages.push(message)
-		} else {
-			groups.push({
-				date: messageDate,
-				messages: [message],
-			})
-		}
-	})
-
-	return groups
-})
-
-const formatGroupDate = (dateString: string) => {
-	const date = new Date(dateString)
-	const today = new Date()
-	const yesterday = new Date(today)
-	yesterday.setDate(yesterday.getDate() - 1)
-
-	if (date.toDateString() === today.toDateString()) return 'Today'
-	if (date.toDateString() === yesterday.toDateString()) return 'Yesterday'
-
-	return date.toLocaleDateString('en-US', {
-		month: 'short',
-		day: 'numeric',
-		year: date.getFullYear() !== today.getFullYear() ? 'numeric' : undefined,
-	})
-}
+const groupedMessages = computed(() => groupMessagesByDate(props.messages))
 
 const scrollToBottom = () => {
 	if (messagesContainer.value && shouldAutoScroll.value) {
@@ -140,16 +91,24 @@ onMounted(() => {
 				v-for="message in group.messages"
 				:key="message.id"
 				class="flex"
-				:class="isSentByCurrentUser(message) ? 'justify-end' : 'justify-start'"
+				:class="
+					isSentByCurrentUser(message, currentUserId)
+						? 'justify-end'
+						: 'justify-start'
+				"
 			>
 				<div
 					class="max-w-[70%] flex flex-col"
-					:class="isSentByCurrentUser(message) ? 'items-end' : 'items-start'"
+					:class="
+						isSentByCurrentUser(message, currentUserId)
+							? 'items-end'
+							: 'items-start'
+					"
 				>
 					<div
 						class="px-4 py-2 rounded-2xl"
 						:class="
-							isSentByCurrentUser(message)
+							isSentByCurrentUser(message, currentUserId)
 								? 'bg-primary text-primary-foreground rounded-br-sm'
 								: 'bg-primary/10 text-primary rounded-bl-sm'
 						"

@@ -13,47 +13,6 @@ const emit = defineEmits<{
 
 const { user } = storeToRefs(useAuthStore())
 const { getUnreadCount } = useChatState()
-
-const getOtherUser = (chat: ChatResponse) => {
-	if (chat.userId1 === user.value?.userId) {
-		return {
-			id: chat.userId2,
-			firstName: chat.user2FirstName,
-			lastName: chat.user2LastName,
-		}
-	}
-	return {
-		id: chat.userId1,
-		firstName: chat.user1FirstName,
-		lastName: chat.user1LastName,
-	}
-}
-
-const getInitials = (firstName: string, lastName: string) => {
-	return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase()
-}
-
-const formatTimestamp = (dateString: string) => {
-	const date = new Date(dateString)
-	const now = new Date()
-	const diffInMs = now.getTime() - date.getTime()
-	const diffInMinutes = Math.floor(diffInMs / 60000)
-	const diffInHours = Math.floor(diffInMinutes / 60)
-	const diffInDays = Math.floor(diffInHours / 24)
-
-	if (diffInMinutes < 1) return 'Just now'
-	if (diffInMinutes < 60) return `${diffInMinutes}m ago`
-	if (diffInHours < 24) return `${diffInHours}h ago`
-	if (diffInDays === 1) return 'Yesterday'
-	if (diffInDays < 7) return `${diffInDays}d ago`
-
-	return date.toLocaleDateString()
-}
-
-const truncateText = (text: string, maxLength: number = 50) => {
-	if (text.length <= maxLength) return text
-	return text.substring(0, maxLength) + '...'
-}
 </script>
 
 <template>
@@ -86,8 +45,8 @@ const truncateText = (text: string, maxLength: number = 50) => {
 						<span class="text-primary font-bold font-lateef">
 							{{
 								getInitials(
-									getOtherUser(chat).firstName,
-									getOtherUser(chat).lastName,
+									getOtherUser(chat, user?.userId).firstName,
+									getOtherUser(chat, user?.userId).lastName,
 								)
 							}}
 						</span>
@@ -96,8 +55,8 @@ const truncateText = (text: string, maxLength: number = 50) => {
 					<div class="flex-1 min-w-0">
 						<div class="flex items-center justify-between mb-1">
 							<h3 class="font-bold font-lateef text-primary truncate">
-								{{ getOtherUser(chat).firstName }}
-								{{ getOtherUser(chat).lastName }}
+								{{ getOtherUser(chat, user?.userId).firstName }}
+								{{ getOtherUser(chat, user?.userId).lastName }}
 							</h3>
 							<span
 								v-if="chat.lastMessage"

@@ -25,12 +25,10 @@ export const useSignalR = () => {
 
 	const connect = async () => {
 		if (connection.value?.state === signalR.HubConnectionState.Connected) {
-			console.log('SignalR: Already connected')
 			return
 		}
 
 		if (!tokenInfo.value?.token) {
-			console.error('SignalR: No authentication token available')
 			return
 		}
 
@@ -56,8 +54,7 @@ export const useSignalR = () => {
 				connectionState.value = signalR.HubConnectionState.Reconnecting
 			})
 
-			connection.value.onreconnected((connectionId) => {
-				console.log('SignalR: Reconnected with ID:', connectionId)
+			connection.value.onreconnected(() => {
 				connectionState.value = signalR.HubConnectionState.Connected
 			})
 
@@ -69,7 +66,6 @@ export const useSignalR = () => {
 			connection.value.on(
 				'ReceiveMessage',
 				(notification: ChatNotification) => {
-					console.log('SignalR: Message received', notification)
 					messageHandlers.value.forEach((handler) => handler(notification))
 				},
 			)
@@ -77,8 +73,6 @@ export const useSignalR = () => {
 			connectionState.value = signalR.HubConnectionState.Connecting
 			await connection.value.start()
 			connectionState.value = signalR.HubConnectionState.Connected
-
-			console.log('SignalR: Connected successfully')
 		} catch (error) {
 			console.error('SignalR: Connection failed', error)
 			connectionState.value = signalR.HubConnectionState.Disconnected
@@ -90,7 +84,6 @@ export const useSignalR = () => {
 		if (connection.value) {
 			try {
 				await connection.value.stop()
-				console.log('SignalR: Disconnected')
 			} catch (error) {
 				console.error('SignalR: Disconnect failed', error)
 			} finally {
@@ -102,13 +95,11 @@ export const useSignalR = () => {
 
 	const joinChat = async (chatId: string) => {
 		if (!isConnected.value) {
-			console.error('SignalR: Cannot join chat - not connected')
 			return
 		}
 
 		try {
 			await connection.value?.invoke('JoinChat', chatId)
-			console.log(`SignalR: Joined chat ${chatId}`)
 		} catch (error) {
 			console.error(`SignalR: Failed to join chat ${chatId}`, error)
 			throw error
@@ -117,13 +108,11 @@ export const useSignalR = () => {
 
 	const leaveChat = async (chatId: string) => {
 		if (!isConnected.value) {
-			console.error('SignalR: Cannot leave chat - not connected')
 			return
 		}
 
 		try {
 			await connection.value?.invoke('LeaveChat', chatId)
-			console.log(`SignalR: Left chat ${chatId}`)
 		} catch (error) {
 			console.error(`SignalR: Failed to leave chat ${chatId}`, error)
 			throw error
@@ -138,7 +127,6 @@ export const useSignalR = () => {
 
 		try {
 			await connection.value?.invoke('SendMessage', chatId, text)
-			console.log(`SignalR: Message sent to chat ${chatId}`)
 		} catch (error) {
 			console.error(`SignalR: Failed to send message to chat ${chatId}`, error)
 			throw error

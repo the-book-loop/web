@@ -13,54 +13,6 @@ useSeoMeta({
 			? 'Loading...'
 			: `Support Ticket - ${ticket.value?.subject}`,
 })
-
-const statusText = computed(() => {
-	switch (ticket.value?.status) {
-		case 0:
-			return 'Open'
-		case 1:
-			return 'In Progress'
-		case 2:
-			return 'Resolved'
-		default:
-			return 'Unknown'
-	}
-})
-
-const statusColor = computed(() => {
-	switch (ticket.value?.status) {
-		case 0:
-			return 'bg-yellow-100 text-yellow-800'
-		case 1:
-			return 'bg-blue-100 text-blue-800'
-		case 2:
-			return 'bg-green-100 text-green-800'
-		default:
-			return 'bg-gray-100 text-gray-800'
-	}
-})
-
-const formattedDate = computed(() => {
-	if (!ticket.value) return ''
-	return new Date(ticket.value.created).toLocaleDateString('en-US', {
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric',
-		hour: '2-digit',
-		minute: '2-digit',
-	})
-})
-
-const formattedRespondedDate = computed(() => {
-	if (!ticket.value?.respondedAt) return ''
-	return new Date(ticket.value.respondedAt).toLocaleDateString('en-US', {
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric',
-		hour: '2-digit',
-		minute: '2-digit',
-	})
-})
 </script>
 
 <template>
@@ -82,8 +34,8 @@ const formattedRespondedDate = computed(() => {
 						<Icon name="lucide:arrow-left" class="size-5" />
 						<span class="font-lateef">Back to Support</span>
 					</NuxtLink>
-					<Badge :class="statusColor">
-						{{ statusText }}
+					<Badge :class="getTicketStatusColor(ticket.status)">
+						{{ fmtTicketStatus(ticket.status) }}
 					</Badge>
 				</div>
 				<h1 class="text-3xl font-bold text-primary font-lateef mb-2">
@@ -91,7 +43,7 @@ const formattedRespondedDate = computed(() => {
 				</h1>
 				<div class="flex items-center gap-2 text-sm text-primary/60">
 					<Icon name="lucide:calendar" class="size-4" />
-					<span>Created {{ formattedDate }}</span>
+					<span>Created {{ fmtTicketCreationDate(ticket.created) }}</span>
 				</div>
 			</div>
 
@@ -118,13 +70,15 @@ const formattedRespondedDate = computed(() => {
 						</div>
 						<div class="inline-flex gap-2">
 							<span class="font-lateef text-primary/60">Status:</span>
-							<span class="font-lateef text-primary">{{ statusText }}</span>
+							<span class="font-lateef text-primary">
+								{{ fmtTicketStatus(ticket.status) }}
+							</span>
 						</div>
 						<div class="inline-flex gap-2">
 							<span class="font-lateef text-primary/60">Your Email:</span>
-							<span class="font-lateef text-primary">{{
-								ticket.userEmail
-							}}</span>
+							<span class="font-lateef text-primary">
+								{{ ticket.userEmail }}
+							</span>
 						</div>
 					</div>
 				</div>
@@ -148,7 +102,7 @@ const formattedRespondedDate = computed(() => {
 							class="flex items-center gap-2 text-sm text-primary/60 mt-3"
 						>
 							<Icon name="lucide:clock" class="size-4" />
-							<span>Responded {{ formattedRespondedDate }}</span>
+							<span>Responded {{ fmtResponseDate(ticket.respondedAt) }}</span>
 						</div>
 					</div>
 				</div>

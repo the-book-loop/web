@@ -23,21 +23,6 @@ const { data: messages, isLoading } = useQuery({
 	enabled: computed(() => !!props.chat?.id),
 })
 
-const getOtherUser = (chat: ChatResponse) => {
-	if (chat.userId1 === user.value?.userId) {
-		return {
-			id: chat.userId2,
-			firstName: chat.user2FirstName,
-			lastName: chat.user2LastName,
-		}
-	}
-	return {
-		id: chat.userId1,
-		firstName: chat.user1FirstName,
-		lastName: chat.user1LastName,
-	}
-}
-
 const handleSendMessage = async (text: string) => {
 	if (!props.chat) return
 
@@ -74,15 +59,16 @@ const handleLoadMore = () => {
 				>
 					<span class="text-primary font-bold font-lateef text-sm">
 						{{
-							getOtherUser(chat).firstName.charAt(0) +
-							getOtherUser(chat).lastName.charAt(0)
+							getOtherUser(chat, user?.userId).firstName.charAt(0) +
+							getOtherUser(chat, user?.userId).lastName.charAt(0)
 						}}
 					</span>
 				</div>
 
 				<div>
 					<h2 class="font-bold font-lateef text-primary">
-						{{ getOtherUser(chat).firstName }} {{ getOtherUser(chat).lastName }}
+						{{ getOtherUser(chat, user?.userId).firstName }}
+						{{ getOtherUser(chat, user?.userId).lastName }}
 					</h2>
 				</div>
 			</div>

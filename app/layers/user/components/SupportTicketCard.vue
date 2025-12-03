@@ -1,41 +1,7 @@
 <script lang="ts" setup>
 import type { SupportTicket } from '../types'
 
-const props = defineProps<{ ticket: SupportTicket }>()
-
-const statusText = computed(() => {
-	switch (props.ticket.status) {
-		case 0:
-			return 'Open'
-		case 1:
-			return 'In Progress'
-		case 2:
-			return 'Resolved'
-		default:
-			return 'Unknown'
-	}
-})
-
-const statusColor = computed(() => {
-	switch (props.ticket.status) {
-		case 0:
-			return 'bg-yellow-100 text-yellow-800'
-		case 1:
-			return 'bg-blue-100 text-blue-800'
-		case 2:
-			return 'bg-green-100 text-green-800'
-		default:
-			return 'bg-gray-100 text-gray-800'
-	}
-})
-
-const formattedDate = computed(() => {
-	return new Date(props.ticket.created).toLocaleDateString('en-US', {
-		year: 'numeric',
-		month: 'short',
-		day: 'numeric',
-	})
-})
+defineProps<{ ticket: SupportTicket }>()
 </script>
 
 <template>
@@ -48,13 +14,13 @@ const formattedDate = computed(() => {
 				<h3 class="text-primary font-bold text-xl font-lateef">
 					{{ ticket.subject }}
 				</h3>
-				<Badge :class="statusColor" class="text-xs">
-					{{ statusText }}
+				<Badge :class="getTicketStatusColor(ticket.status)" class="text-xs">
+					{{ fmtTicketStatus(ticket.status) }}
 				</Badge>
 			</div>
 			<div class="flex items-center gap-2 text-sm text-primary/70">
 				<Icon name="lucide:calendar" class="size-4" />
-				<span>{{ formattedDate }}</span>
+				<span>{{ fmtTicketCreationDate(ticket.created) }}</span>
 			</div>
 			<div
 				v-if="ticket.adminResponse"
@@ -64,9 +30,6 @@ const formattedDate = computed(() => {
 				<p class="text-primary/80 line-clamp-2">{{ ticket.adminResponse }}</p>
 			</div>
 		</div>
-		<Icon
-			name="lucide:chevron-right"
-			class="size-6 text-primary flex-shrink-0"
-		/>
+		<Icon name="lucide:chevron-right" class="size-6 text-primary shrink-0" />
 	</NuxtLink>
 </template>
