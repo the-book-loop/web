@@ -73,6 +73,13 @@ const fullName = computed(() => {
 				<CollapsibleContent>
 					<NuxtLink
 						class="flex font-lateef text-xl items-center gap-2 text-primary/50"
+						to="/profile/support"
+					>
+						<Icon name="lucide:headset" class="size-3!" />
+						Technical support
+					</NuxtLink>
+					<NuxtLink
+						class="flex font-lateef text-xl items-center gap-2 text-primary/50"
 						to="/profile/edit"
 					>
 						<Icon name="lucide:pen-line" class="size-3!" />

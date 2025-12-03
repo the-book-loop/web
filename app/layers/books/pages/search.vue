@@ -1,5 +1,8 @@
 <script lang="ts" setup>
+import { useQuery } from '@tanstack/vue-query'
 import { BOOK_STATES } from '../constants'
+import { booksGenresOptions } from '../queries/getGenres'
+import { booksLanguagesOptions } from '../queries/getLanguages'
 
 useSeoMeta({
 	title: 'Search',
@@ -11,6 +14,9 @@ const language = useRouteQuery('language', 'all', { transform: String })
 const genre = useRouteQuery('genre', 'all', { transform: String })
 
 const query = refDebounced(input, 300)
+
+const { data: genres } = useQuery(booksGenresOptions())
+const { data: languages } = useQuery(booksLanguagesOptions())
 
 const bookStates = computed(() => {
 	return BOOK_STATES.map((state) => {
@@ -51,9 +57,16 @@ const bookStates = computed(() => {
 						<SelectValue placeholder="Select a language" />
 					</SelectTrigger>
 					<SelectContent>
-						<SelectItem value="all"> All </SelectItem>
-						<SelectItem value="English"> English </SelectItem>
-						<SelectItem value="Ukrainian"> Ukrainian </SelectItem>
+						<template v-if="languages">
+							<SelectItem value="all"> All </SelectItem>
+							<SelectItem
+								v-for="({ name }, i) in languages"
+								:key="i"
+								:value="name"
+							>
+								{{ name }}
+							</SelectItem>
+						</template>
 					</SelectContent>
 				</Select>
 			</div>
@@ -64,9 +77,16 @@ const bookStates = computed(() => {
 						<SelectValue placeholder="Select a genre" />
 					</SelectTrigger>
 					<SelectContent>
-						<SelectItem value="all"> All </SelectItem>
-						<SelectItem value="Roman"> Roman </SelectItem>
-						<SelectItem value="Horror fiction"> Horror fiction </SelectItem>
+						<template v-if="genres">
+							<SelectItem value="all"> All </SelectItem>
+							<SelectItem
+								v-for="({ name }, i) in genres"
+								:key="i"
+								:value="name"
+							>
+								{{ name }}
+							</SelectItem>
+						</template>
 					</SelectContent>
 				</Select>
 			</div>

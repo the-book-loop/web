@@ -15,6 +15,8 @@ export const BOOKS_QUERY_KEYS = {
 		toValue(language),
 		toValue(genre),
 	],
+	genres: () => [...BOOKS_QUERY_KEYS.all, 'genres'],
+	languages: () => [...BOOKS_QUERY_KEYS.all, 'languages'],
 }
 
 export const BOOK_STATES = [

@@ -2,6 +2,7 @@
 const links = [
 	{ to: '/', icon: 'custom:heart', label: 'Home' },
 	{ to: '/exchanges', icon: 'custom:exchange', label: 'Exchanges' },
+	{ to: '/chat', icon: 'custom:messages', label: 'Chats' },
 	{ to: '/search', icon: 'lucide:search', label: 'Search' },
 	{ to: '/profile', icon: 'custom:user', label: 'Profile' },
 ]

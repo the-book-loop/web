@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import type { CreateExchange, Exchange } from '../types'
 import { EXCHANGES_QUEERY_KEYS } from '../constants'
+import { useCreateChat } from '~/layers/chats/mutations/useCreateChat'
 
 export const useSendRequest = () => {
 	const {
@@ -9,6 +10,7 @@ export const useSendRequest = () => {
 	const { tokenInfo, user } = storeToRefs(useAuthStore())
 	const queryClient = useQueryClient()
 	const router = useRouter()
+	const { mutateAsync } = useCreateChat()
 
 	return useMutation({
 		mutationFn: async (data: CreateExchange) => {
@@ -23,12 +25,15 @@ export const useSendRequest = () => {
 
 			return response
 		},
-		onSuccess: async () => {
-			await queryClient.invalidateQueries({
-				queryKey: EXCHANGES_QUEERY_KEYS.sentByUser(
-					user.value?.userId as string,
-				),
-			})
+		onSuccess: async ({ id }) => {
+			Promise.all([
+				queryClient.invalidateQueries({
+					queryKey: EXCHANGES_QUEERY_KEYS.sentByUser(
+						user.value?.userId as string,
+					),
+				}),
+				mutateAsync({ exchangeId: id }),
+			])
 
 			router.replace('/exchanges')
 		},

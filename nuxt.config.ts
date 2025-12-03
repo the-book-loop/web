@@ -10,6 +10,7 @@ export default defineNuxtConfig({
 		'./app/layers/user',
 		'./app/layers/books',
 		'./app/layers/exchanges',
+		'./app/layers/chats',
 	],
 	dir: {
 		assets: './app/core/assets',
@@ -26,6 +27,7 @@ export default defineNuxtConfig({
 			'./app/layers/**/types',
 			'./app/layers/**/constants',
 			'./app/layers/**/queries',
+			'./app/layers/**/composables',
 		],
 	},
 	modules: [
@@ -79,6 +81,9 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		public: {
 			apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL,
+			signalrHubUrl:
+				process.env.NUXT_PUBLIC_SIGNALR_HUB_URL ||
+				`${process.env.NUXT_PUBLIC_API_BASE_URL}/hubs/chat`,
 		},
 	},
 	app: {
