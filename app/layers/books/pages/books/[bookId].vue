@@ -115,7 +115,12 @@ const btnText = computed(() =>
 				>
 					<Icon name="lucide:user-round" class="size-8! text-primary" />
 				</div>
-				{{ book.ownerFirstName }}
+				<NuxtLink
+					:to="`/${book.ownerId}`"
+					class="text-xl font-lateef text-primary"
+				>
+					{{ book.ownerFirstName }}
+				</NuxtLink>
 				<Button
 					:disabled="isPending"
 					@click="
