@@ -11,6 +11,7 @@ export default defineNuxtConfig({
 		'./app/layers/books',
 		'./app/layers/exchanges',
 		'./app/layers/chats',
+		'./app/layers/reviews',
 	],
 	dir: {
 		assets: './app/core/assets',
